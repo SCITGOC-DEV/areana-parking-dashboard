@@ -7,7 +7,7 @@ import { useTheme } from "../../../context/ThemeContext";
 
 const GET_VEHICLE_COUNTS = gql`
   query GetParkingVehicleCounts {
-    response: parkingGetVehicleCounts {
+    response: parkingGetVehicleCountsByAdmin {
       success
       message
       data {
@@ -155,7 +155,7 @@ export const DashboardScreen = () => {
                     {icon}
                 </div>
             </div>
-            
+
             <div className="grid grid-cols-3 gap-2 border-t border-gray-50 dark:border-gray-700/50 pt-4">
                 {[
                     { label: 'Cars', val: breakdown.carCount, color: 'text-blue-500', bg: 'bg-blue-50/50 dark:bg-blue-950/20', icon: <CarIcon className="w-4 h-4 mx-auto mb-1 text-blue-500" /> },
@@ -174,7 +174,7 @@ export const DashboardScreen = () => {
 
     return (
         <div className="w-full py-4 sm:py-6 flex flex-col gap-6">
-            
+
             {/* Header section */}
             <div className="flex flex-col md:flex-row items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
                 <div>
@@ -185,15 +185,15 @@ export const DashboardScreen = () => {
 
             {/* KPI Cards Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <StatCard 
-                    title="Active Parked Vehicles" 
+                <StatCard
+                    title="Active Parked Vehicles"
                     value={stats.parked.totalCount || 0}
                     icon={<TotalIcon className="w-6 h-6" />}
                     breakdown={stats.parked}
                     type="parked"
                 />
-                <StatCard 
-                    title="Completed Sessions" 
+                <StatCard
+                    title="Completed Sessions"
                     value={stats.completed.totalCount || 0}
                     icon={<TotalIcon className="w-6 h-6" />}
                     breakdown={stats.completed}
@@ -203,7 +203,7 @@ export const DashboardScreen = () => {
 
             {/* Charts Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
+
                 {/* Grouped Bar Chart */}
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700/60 p-6 flex flex-col justify-between">
                     <div>
@@ -216,7 +216,7 @@ export const DashboardScreen = () => {
                                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#374151' : '#F1F5F9'} opacity={0.6} />
                                 <XAxis dataKey="name" tick={{ fill: '#94A3B8', fontSize: 12, fontWeight: '500' }} />
                                 <YAxis tick={{ fill: '#94A3B8', fontSize: 12, fontWeight: '500' }} />
-                                <Tooltip 
+                                <Tooltip
                                     contentStyle={{
                                         backgroundColor: isDark ? '#1F2937' : '#FFFFFF',
                                         border: `1px solid ${isDark ? '#374151' : '#E2E8F0'}`,
