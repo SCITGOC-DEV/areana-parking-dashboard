@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { DataTable } from "../../common/DataTable";
 import { Loader } from "../../components/Loader";
@@ -6,6 +6,7 @@ import { ToastType, useToast } from "../../context/ToastProvider";
 import parkingQueries from "../../graphql/queries/parking";
 import { formatDateToISO, formatDateWithTimezone, formatTimeWithTimezone } from "../../utils/Constants";
 import { DateButton } from "../reports/AnexBReportContent";
+import ExcelGenerator from "../../utils/ExcelGenerator";
 
 const formatPHTime = (utc) => {
     if (!utc) return 'N/A';
@@ -79,6 +80,10 @@ export const ParkingsScreen = () => {
     };
 
     const hasActiveFilters = Object.values(filters).some(v => v !== '');
+
+    const handleExportExcel = () => {
+        ExcelGenerator.exportParkingsReport(filteredParkings, startDate, endDate, filters);
+    };
 
     const columns = [
         { key: 'ticket_no', header: 'TICKET NO', render: (item) => <span className="font-mono text-sm font-semibold">{item.ticket_no || 'N/A'}</span> },
@@ -241,6 +246,18 @@ export const ParkingsScreen = () => {
                         onRowClick={setSelectedParking}
                         enablePagination
                         emptyMessage="No parking records found for this date"
+                        actions={[
+                            {
+                                label: "Export Excel",
+                                onClick: handleExportExcel,
+                                disabled: filteredParkings.length === 0,
+                                icon: (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                )
+                            }
+                        ]}
                     />
                 )}
             </div>

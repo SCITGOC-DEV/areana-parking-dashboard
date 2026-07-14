@@ -2,7 +2,7 @@ import ExcelJS from "exceljs";
 
 import { saveAs } from "file-saver";
 import DateUtils from "./DateUtils";
-import { addPadding, formatDateToMMDDYYYY, formatTIN } from "./Constants";
+import { addPadding, formatDateToMMDDYYYY, formatTIN, formatDateWithTimezone, formatTimeWithTimezone } from "./Constants";
 
 // Helper function to safely pad a value with zeros (for IDs, etc.)
 const safeAddPadding = (value) => {
@@ -4161,6 +4161,138 @@ const exportCardReport = async (reportData, startDate, endDate) => {
     }
 };
 
+const exportParkingsReport = async (data, startDate, endDate, filters = {}) => {
+    try {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("Parking Records");
+
+        const formattedStartDate = formatDateWithTimezone(startDate);
+        const formattedEndDate = formatDateWithTimezone(endDate);
+
+        // Title row (merged A1:H1)
+        worksheet.mergeCells("A1:H1");
+        const titleCell = worksheet.getCell("A1");
+        titleCell.value = "PARK SOLUTIONS INC.\nVAT-TIN: 010-165-233-00010\nPARKING RECORDS REPORT";
+        titleCell.alignment = { horizontal: "left", vertical: "top", wrapText: true };
+        titleCell.font = { bold: true, size: 12 };
+        worksheet.getRow(1).height = 60;
+
+        // Date generated & Time section (Row 2, merged A2:H2)
+        worksheet.mergeCells("A2:H2");
+        const metaCell = worksheet.getCell("A2");
+        const dateObj = new Date();
+        const genDate = formatDateWithTimezone(dateObj);
+        const genTime = formatTimeWithTimezone(dateObj);
+
+        const formatPHTime = (utc) => {
+            if (!utc) return 'N/A';
+            const dateStr = formatDateWithTimezone(utc);
+            const timeStr = formatTimeWithTimezone(utc);
+            return dateStr && timeStr ? `${dateStr} ${timeStr}` : 'N/A';
+        };
+
+        let filterStr = "";
+        if (filters.ticketNo || filters.plateNumber) {
+            const parts = [];
+            if (filters.ticketNo) parts.push(`Ticket No: ${filters.ticketNo}`);
+            if (filters.plateNumber) parts.push(`Plate No: ${filters.plateNumber}`);
+            filterStr = ` | Filters - ${parts.join(', ')}`;
+        }
+
+        metaCell.value = `Date Generated: ${genDate} ${genTime} | Period: ${formattedStartDate} to ${formattedEndDate}${filterStr}`;
+        metaCell.alignment = { horizontal: "left", vertical: "center" };
+        metaCell.font = { italic: true, size: 10 };
+        worksheet.getRow(2).height = 20;
+
+        // Blank row
+        worksheet.getRow(3).height = 15;
+
+        // Define columns
+        const columns = [
+            { header: 'No.', width: 8 },
+            { header: 'Ticket No', width: 22 },
+            { header: 'Plate No', width: 18 },
+            { header: 'Check In', width: 25 },
+            { header: 'Check Out', width: 25 },
+            { header: 'Check In Machine', width: 22 },
+            { header: 'Check Out Machine', width: 22 },
+            { header: 'Vehicle Type', width: 16 },
+        ];
+
+        // Header row
+        const headerRow = worksheet.getRow(4);
+        headerRow.height = 25;
+        columns.forEach((col, index) => {
+            const cell = headerRow.getCell(index + 1);
+            cell.value = col.header;
+            worksheet.getColumn(index + 1).width = col.width;
+        });
+
+        // Style header row
+        headerRow.eachCell((cell) => {
+            cell.fill = {
+                type: "pattern",
+                pattern: "solid",
+                fgColor: { argb: "FF4CAF50" } // Material Design Green 500
+            };
+            cell.font = { bold: true, color: { argb: "FFFFFFFF" }, size: 11 };
+            cell.alignment = { horizontal: "center", vertical: "middle" };
+            cell.border = {
+                top: { style: "thin" },
+                left: { style: "thin" },
+                bottom: { style: "thin" },
+                right: { style: "thin" }
+            };
+        });
+
+        // Data rows
+        data.forEach((item, index) => {
+            const checkInStr = formatPHTime(item.check_in_time);
+            const checkOutStr = formatPHTime(item.check_out_time);
+
+            const dataRow = worksheet.addRow([
+                index + 1,
+                item.ticket_no || 'N/A',
+                item.plate_number || 'N/A',
+                checkInStr,
+                checkOutStr,
+                item.check_in_machine_id || 'N/A',
+                item.check_out_machine_id || 'N/A',
+                item.vehicle_type_id || 'N/A',
+            ]);
+            dataRow.height = 20;
+
+            dataRow.eachCell((cell, colNumber) => {
+                cell.border = {
+                    top: { style: "thin" },
+                    left: { style: "thin" },
+                    bottom: { style: "thin" },
+                    right: { style: "thin" }
+                };
+                cell.font = { size: 10 };
+                
+                if (colNumber === 1 || colNumber === 6 || colNumber === 7 || colNumber === 8) {
+                    cell.alignment = { horizontal: "center", vertical: "middle" };
+                } else {
+                    cell.alignment = { horizontal: "left", vertical: "middle" };
+                }
+            });
+        });
+
+        // Save/Download Excel File
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        const cleanStart = formattedStartDate.replace(/\//g, '-');
+        const cleanEnd = formattedEndDate.replace(/\//g, '-');
+        const fileName = `Parking_Report_${cleanStart}_to_${cleanEnd}`;
+        saveAs(blob, `${fileName}.xlsx`);
+        return { success: true };
+    } catch (error) {
+        console.error("Failed to generate/export Parkings Report Excel file:", error);
+        return { success: false, error };
+    }
+};
+
 export {
     exportAnexBReport,
     exportTransactionReports,
@@ -4179,7 +4311,8 @@ export {
     exportUnusedTicketQRReport,
     exportUsedTicketQRReport,
     exportTopUpHistoryReport,
-    exportCardReport
+    exportCardReport,
+    exportParkingsReport
 };
 
 // Default export for backward compatibility
@@ -4201,5 +4334,6 @@ export default {
     exportUsedTicketPOSReport,
     exportUnusedTicketQRReport,
     exportUsedTicketQRReport,
-    exportCardReport
+    exportCardReport,
+    exportParkingsReport
 };
