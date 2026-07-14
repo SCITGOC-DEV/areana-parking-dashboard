@@ -62,6 +62,11 @@ export const MainLayout = () => {
                         </div>
 
                         <div className="flex items-center gap-4">
+                            <img
+                                src={require('../../assets/logo.png')}
+                                alt="Logo"
+                                className="h-8 w-auto rounded-md"
+                            />
                             <button
                                 onClick={() => toggleTheme(!isDark)}
                                 className="p-2 rounded-lg hover:bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]"
