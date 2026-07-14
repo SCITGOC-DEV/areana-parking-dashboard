@@ -4172,7 +4172,7 @@ const exportParkingsReport = async (data, startDate, endDate, filters = {}) => {
         // Title row (merged A1:H1)
         worksheet.mergeCells("A1:H1");
         const titleCell = worksheet.getCell("A1");
-        titleCell.value = "PARK SOLUTIONS INC.\nVAT-TIN: 010-165-233-00010\nPARKING RECORDS REPORT";
+        titleCell.value = "SM SEASIDE CEBU ARENA\nSouth Road Properties ( SRP ) \nCebu City, Cebu \nPARKING RECORDS REPORT";
         titleCell.alignment = { horizontal: "left", vertical: "top", wrapText: true };
         titleCell.font = { bold: true, size: 12 };
         worksheet.getRow(1).height = 60;
@@ -4270,7 +4270,7 @@ const exportParkingsReport = async (data, startDate, endDate, filters = {}) => {
                     right: { style: "thin" }
                 };
                 cell.font = { size: 10 };
-                
+
                 if (colNumber === 1 || colNumber === 6 || colNumber === 7 || colNumber === 8) {
                     cell.alignment = { horizontal: "center", vertical: "middle" };
                 } else {
