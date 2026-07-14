@@ -4,24 +4,31 @@ import {
     FiUser,
     FiX,
     FiZap,
-    FiSettings
+    FiSettings,
+    FiTruck
 } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
 import { cloneElement, useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 export const sidebarOptions = [
-    // {
-    //     id: 'dashboard',
-    //     title: 'Dashboard',
-    //     icon: <FiHome className="text-lg" />,
-    //     path: '/home/dashboard'
-    // },
+    {
+        id: 'dashboard',
+        title: 'Dashboard',
+        icon: <FiHome className="text-lg" />,
+        path: '/home/dashboard'
+    },
     {
         id: 'user-accounts',
         title: 'User Accounts',
         icon: <FiUser className="text-lg" />,
         path: '/home/user-accounts'
+    },
+    {
+        id: 'parkings',
+        title: 'Parkings',
+        icon: <FiTruck className="text-lg" />,
+        path: '/home/parkings'
     },
     // {
     //     id: 'parking-sessions',

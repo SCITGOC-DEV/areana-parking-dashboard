@@ -11,6 +11,7 @@ import { ParkingSessionsScreen } from "../screens/home/ParkingSessionsScreen";
 import { ParkingLocationsScreen } from "../screens/home/parking-locations/ParkingLocationsScreen";
 import {ReportScreen} from "../screens/home/ReportScreen";
 import { ValetSettingsScreen } from "../screens/home/valet-settings/ValetSettingsScreen";
+import { ParkingsScreen } from "../screens/home/ParkingsScreen";
 
 
 const withPermissions = (Component) => () => {
@@ -34,7 +35,7 @@ const LoginGuard = () => {
 
     useEffect(() => {
         if (authChecked && token) {
-            const from = location.state?.from?.pathname || '/home/parking-sessions';
+            const from = location.state?.from?.pathname || '/home/parkings';
             navigate(from, { replace: true });
         }
     }, [token, authChecked, navigate, location]);
@@ -71,6 +72,10 @@ export const Routes = {
             path: '/home/parking-sessions',
             element: <ParkingSessionsScreen />
         },
+        Parkings: {
+            path: '/home/parkings',
+            element: <ParkingsScreen />
+        },
         ParkingLocations: {
             path: '/home/parking-locations',
             element: <ParkingLocationsScreen />
@@ -85,7 +90,7 @@ export const Routes = {
         },
         Fallback: {
             path: '*',
-            element: <Navigate to="/home/parking-sessions" replace />
+            element: <Navigate to="/home/parkings" replace />
         },
     }
 };

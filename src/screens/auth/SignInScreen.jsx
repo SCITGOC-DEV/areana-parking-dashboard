@@ -76,7 +76,7 @@ const LoginScreen = () => {
 
                     console.log('User permissions:', userPermissions);
 
-                    let redirectPath = '/home/parking-sessions'; // Default fallback
+                    let redirectPath = '/home/parkings'; // Default fallback
 
                     // Check permission groups first (these take priority)
                     if (operationReportPermissions.some(perm => userPermissions.includes(perm))) {

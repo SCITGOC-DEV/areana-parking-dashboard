@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Navigate to="/home/parking-sessions" replace />
+                element: <Navigate to="/home/parkings" replace />
             },
             {
                 path: Routes.AuthRoutes.Login.path,
@@ -33,11 +33,12 @@ const router = createBrowserRouter([
                     {
                         element: <MainLayout />,
                         children: [
-                            { index: true, element: <Navigate to="dashboard" replace /> },
+                            { index: true, element: <Navigate to="parkings" replace /> },
                             { path: Routes.MainRoutes.Dashboard.path, element: Routes.MainRoutes.Dashboard.element },
                             { path: Routes.MainRoutes.Transactions.path, element: Routes.MainRoutes.Transactions.element },
                             { path: Routes.MainRoutes.UserAccounts.path, element: Routes.MainRoutes.UserAccounts.element },
                             { path: Routes.MainRoutes.ParkingSessions.path, element: Routes.MainRoutes.ParkingSessions.element },
+                            { path: Routes.MainRoutes.Parkings.path, element: Routes.MainRoutes.Parkings.element },
                             { path: Routes.MainRoutes.ParkingLocations.path, element: Routes.MainRoutes.ParkingLocations.element },
                             { path: '/home/admins', element: <AdminsScreen /> },
                             { path: '/home/staffs', element: <StaffsScreen /> },
