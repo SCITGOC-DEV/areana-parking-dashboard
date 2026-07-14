@@ -202,10 +202,10 @@ export const DashboardScreen = () => {
             </div>
 
             {/* Charts Grid */}
-            {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-            {/* Grouped Bar Chart */}
-            {/* <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700/60 p-6 flex flex-col justify-between">
+                {/* Grouped Bar Chart */}
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700/60 p-6 flex flex-col justify-between">
                     <div>
                         <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">Category Comparison</h3>
                         <p className="text-xs text-gray-400 dark:text-gray-500 mb-6">Comparison of parked vs completed vehicle counts.</p>
@@ -240,10 +240,10 @@ export const DashboardScreen = () => {
                             <span>Done</span>
                         </div>
                     </div>
-                </div> */}
+                </div>
 
-            {/* Donut Distributions - Active Parked */}
-            {/* <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700/60 p-6 flex flex-col justify-between">
+                {/* Donut Distributions - Active Parked */}
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700/60 p-6 flex flex-col justify-between">
                     <div>
                         <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">Active Distribution</h3>
                         <p className="text-xs text-gray-400 dark:text-gray-500 mb-6">Percentage breakdown of active parking slots.</p>
@@ -285,10 +285,10 @@ export const DashboardScreen = () => {
                                 <span className="text-[9px] uppercase font-bold tracking-wider text-gray-400 dark:text-gray-550">Active</span>
                             </div>
                         )}
-                    </div> */}
+                    </div>
 
-            {/* Donut Legend */}
-            {/* <div className="space-y-1.5 mt-4">
+                    {/* Donut Legend */}
+                    <div className="space-y-1.5 mt-4">
                         {[
                             { label: 'Cars', count: stats.parked.carCount, color: 'bg-blue-500' },
                             { label: 'Bikes', count: stats.parked.motorcycleCount, color: 'bg-emerald-500' },
@@ -309,10 +309,10 @@ export const DashboardScreen = () => {
                             );
                         })}
                     </div>
-                </div> */}
+                </div>
 
-            {/* Donut Distributions - Completed Sessions */}
-            {/* <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700/60 p-6 flex flex-col justify-between">
+                {/* Donut Distributions - Completed Sessions */}
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700/60 p-6 flex flex-col justify-between">
                     <div>
                         <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">Completed Distribution</h3>
                         <p className="text-xs text-gray-400 dark:text-gray-500 mb-6">Percentage breakdown of completed sessions.</p>
@@ -354,10 +354,10 @@ export const DashboardScreen = () => {
                                 <span className="text-[9px] uppercase font-bold tracking-wider text-gray-400 dark:text-gray-550">Done</span>
                             </div>
                         )}
-                    </div> */}
+                    </div>
 
-            {/* Donut Legend */}
-            {/* <div className="space-y-1.5 mt-4">
+                    {/* Donut Legend */}
+                    <div className="space-y-1.5 mt-4">
                         {[
                             { label: 'Cars', count: stats.completed.carCount, color: 'bg-blue-500' },
                             { label: 'Bikes', count: stats.completed.motorcycleCount, color: 'bg-emerald-500' },
@@ -377,10 +377,10 @@ export const DashboardScreen = () => {
                                 </div>
                             );
                         })}
-                    </div> */}
-            {/* </div> */}
+                    </div>
+                </div>
 
-            {/* </div> */}
+            </div>
         </div>
     );
 };
